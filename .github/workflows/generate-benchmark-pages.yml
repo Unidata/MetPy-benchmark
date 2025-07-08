@@ -30,36 +30,13 @@ jobs:
           - run: python -m asv machine --yes  #setup the asv machine settings with device-given defaults
           - name: Publish ASV
             run: python -m asv publish
-          - run: git config user.name "github-actions" #Set user name to github-actions and email to actions@github.com
-          - run: git config user.email "actions@github.com"
-          - name: Commit ASV HTML to main #commit the html files to the main branch if they are changed
-            run: |
-              git add ./html
-              if ! git diff --cached --quiet; then 
-              git commit -m "[GitHub-Actions[bot]] Update ASV benchmark HTML"
-              git push origin main
-              else
-              echo "No changes to commit."
-              fi
-  deploy:
-    needs: publish #requires publish to finish running before deploy runs
-    environment:  #sets environment to github_pages 
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout #checks out main repo
-      uses: actions/checkout@v4
-      with:
-        ref: main  # Checkout the main branch instead of the hash of the original push
-        fetch-depth: 0  # Fetch full history
-    - name: Setup Pages 
-      uses: actions/configure-pages@v5
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        # Upload html files only to page
-        path: './html'
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+          - name: Setup Pages 
+            uses: actions/configure-pages@v5
+          - name: Upload artifact
+            uses: actions/upload-pages-artifact@v3
+            with:
+              # Upload html files only to page
+              path: './html'
+          - name: Deploy to GitHub Pages
+            id: deployment
+            uses: actions/deploy-pages@v4
