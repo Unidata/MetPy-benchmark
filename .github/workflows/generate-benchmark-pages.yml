@@ -27,7 +27,6 @@ jobs:
             with:
               fetch-depth: 0  # Fetch full history
           - run: pip install asv virtualenv  #install asv
-          - run: python -m asv machine --yes  #setup the asv machine settings with device-given defaults
           - name: Publish ASV
             run: python -m asv publish
           - name: Setup Pages 
