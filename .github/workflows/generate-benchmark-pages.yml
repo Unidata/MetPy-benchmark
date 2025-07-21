@@ -1,0 +1,39 @@
+name: Generate Benchmark Pages
+on:
+  push:
+    branches:
+      - main  #any push to main branch triggers this workflow
+  workflow_dispatch:
+  # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest  
+    steps:
+          - uses: actions/setup-python@v5  #sets up python with version 3.12
+            with:
+              python-version: "3.12"
+          - uses: actions/checkout@v4  #checks out repository
+            with:
+              fetch-depth: 0  # Fetch full history
+          - run: pip install asv virtualenv  #install asv
+          - name: Publish ASV
+            run: python -m asv publish
+          - name: Upload artifact
+            uses: actions/upload-pages-artifact@v3
+            with:
+              # Upload html files only to page
+              path: './html'
+          - name: Deploy to GitHub Pages
+            id: deployment
+            uses: actions/deploy-pages@v4

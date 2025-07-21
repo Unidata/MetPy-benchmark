@@ -1,2 +1,2 @@
 # MetPy-benchmark
-Benchmarks for the MetPy project
+Benchmark results for the MetPy project
