@@ -4,6 +4,6 @@
     "machine": "Docker_Container",
     "num_cpu": "64",
     "os": "Linux 4.18.0-553.77.1.el8_10.x86_64",
-    "ram": "395591820",
+    "ram": "395591808",
     "version": 1
 }
